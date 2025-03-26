@@ -1,0 +1,40 @@
+<div id="carousel-travels-container">
+	<div class="container py-5 text-center">
+		<div id="carousel-travels" class="carousel slide mx-auto" style="max-width: 1200px;" data-bs-ride="carousel">
+			<div class="carousel-inner rounded">
+				@for (image of images; track $index) {
+				<div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+					<img [src]="image" class="d-block w-100" alt="Imagen" style="max-width: 1200; max-height: 600px;">
+					<div class="travel-info">
+						<h5>Destino: Malta</h5>
+						<p>Descubre las maravillas de esta isla mediterránea.</p>
+						<button class="carousel-control-prev" type="button" data-bs-target="#carousel-travels"
+							data-bs-slide="prev">
+							<span class="carousel-control-prev-icon"></span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#carousel-travels"
+							data-bs-slide="next">
+							<span class="carousel-control-next-icon"></span>
+						</button>
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+
+		<div class="mt-4">
+			<!-- dependiendo de si esta logueado o no mostrar unos botones u otros -->
+			<a href="../login/login.component.html" class="btn btn-primary m-2">Login</a>
+			<a href="/register" class="btn btn-success m-2">Register</a>
+			<a href="/travels" class="btn btn-warning m-2">Ver Viajes</a>
+		</div>
+	</div>
+</div>
+
+<div class="p-4 bg-success text-center">
+	<h2 class="text-light">Sobre TravelTribe</h2>
+	<p class="text-light">Explora el mundo con TravelTribe. Conectamos viajeros con experiencias únicas y aventuras
+		inolvidables.</p>
+</div>
+
+<!-- contact -->

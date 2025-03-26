@@ -1,0 +1,40 @@
+#carousel-travels-container{
+    // background: linear-gradient(-45deg, #a7c296, #5ba32e, #305a16, #ffffff, #ffffff, #89bb6c);
+    background: linear-gradient(-45deg, 
+    rgba(255, 255, 255, 0.8) 20%, 
+    rgba(180, 230, 115, 0.6) 40%, 
+    rgba(140, 230, 115, 0.4) 60%, 
+    rgba(100, 200, 90, 0.3) 80%, 
+    rgba(80, 150, 70, 0.2) 100%);
+  
+
+  
+
+    background-size: 300% 300%;
+    animation: gradientAnimation 10s ease infinite;
+    padding: 40px 0; // Para que el degradado no quede justo pegado
+
+    #carousel-travels{
+        box-shadow: -8px -8px 10px rgba(0, 0, 0, 0.253);
+    }
+
+    .travel-info {
+        position: absolute;
+        bottom: 0%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(128, 138, 129, 0.804);
+        color: white;
+        padding: 10px;
+        width: 60%;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        text-align: center;
+    }
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

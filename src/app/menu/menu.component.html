@@ -1,0 +1,72 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-success">
+        <div class="container-fluid">
+            <div>
+                <a class="navbar-brand" [routerLink]="['/home']">TravelTribe</a>
+            </div>
+
+            @if(isLogged()){
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-start" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                        TravelTribe
+                    </h5>
+                    <button type="button" class="btn-close-white btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Cerrar"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav flex-grow-1 pe-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false" routerLink="/travels"
+                                routerLinkActive="active">Travels</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" routerLink="/travels/popular"
+                                        routerLinkActive="active">Popular Travels</a></li>
+                                <li><a class="dropdown-item" routerLink="/travels/adventure"
+                                        routerLinkActive="active">Adventure Trips</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/travels/map" routerLinkActive="active">Map</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/travels/new" routerLinkActive="active">New Travel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/auth/users" routerLinkActive="active">Users</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                ⋮
+                            </a>
+                            <ul class="dropdown-menu dropdown-left" aria-labelledby="navbarDropdown">
+                                <li class="nav-item">
+                                    <a class="dropdown-item" routerLink="/profile">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="dropdown-item" (click)="logout()">Logout</button>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,226 @@
+<!-- <body>
+  <div id="wrap">
+    <input type="checkbox" />
+    <div class="back">
+      <b>&larr;</b>
+    </div>
+    <div class="frame">
+      <input id="rad1" type="radio" name="rad" checked="checked" />
+      <input id="rad2" type="radio" name="rad" />
+      <input id="rad3" type="radio" name="rad" />
+      
+      
+      <div class="nav"></div>
+      <div class="nav"></div>
+      
+      <div class="indicator"></div>
+      <div class="inner">
+        <div class="content">
+          <h1 data-splitting="chars">Nulla facilisi maecenas malesuada</h1>
+        </div>
+        <div class="content">
+          <h1 data-splitting="chars">Pellentesque commodo eros</h1>
+        </div>
+        <div class="more">
+          
+          <b>&rarr;</b>
+          <b>&rarr;</b>
+          <b>&rarr;</b>
+        </div>
+        <div class="images">
+          
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="internal">
+        <p>Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Cras varius. Vivamus laoreet. Donec vitae sapien ut libero venenatis faucibus. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl.</p>
+        <div class="image"></div>
+      </div>
+      <div class="internal">
+        <p>Phasellus viverra nulla ut metus varius laoreet. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl. Duis lobortis massa imperdiet quam. Aenean vulputate eleifend tellus. Morbi mollis tellus ac sapien.</p>
+        <div class="image"></div>
+      </div>
+      <div class="internal">
+        <p>Praesent metus tellus, elementum eu, semper a, adipiscing nec, purus. Aenean commodo ligula eget dolor. Vestibulum fringilla pede sit amet augue. Fusce convallis metus id felis luctus adipiscing. Ut id nisl quis enim dignissim sagittis.</p>
+        <div class="image"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+  <script>
+    Splitting();
+  </script>
+</body> -->
+
+
+
+
+
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
+   
+  <div class="row w-100">
+    <!-- Login Form -->
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-5 bg-white shadow">
+      <h2 class="mb-4">Iniciar sesión</h2>
+      <form class="w-100" style="max-width: 400px;" (ngSubmit)="sendLogin()" [formGroup]="loginForm">
+
+        <div class="mb-3">
+          <label for="loginEmail" class="form-label">Usuario o Email</label>
+          <input type="text" class="form-control" id="loginEmail" placeholder="Tu usuario o email"
+            formControlName="usernameOrEmail" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+          @let usernameOrEmail = loginForm.get('usernameOrEmail')?.errors;
+          @if(usernameOrEmail?.['required']) {
+          <div class="invalid-feedback">Este campo es obligatorio</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="loginPassword" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" id="loginPassword" placeholder="Tu contraseña"
+            formControlName="password" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+          @let password = loginForm.get('password')?.errors;
+          @if(password?.['required']) {
+          <div class="invalid-feedback">La contraseña es obligatoria</div>
+          }
+          @if(password?.['minlength']) {
+          <div class="invalid-feedback">
+            Te faltan al menos
+            {{password?.['minlength'].requiredLength - password?.['minlength'].actualLength}}
+            caracteres más
+          </div>
+          }
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Entrar</button>
+      </form>
+    </div>
+
+    <!-- Register Form -->
+    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-5 bg-light shadow">
+      <h2 class="mb-4">Registrarse</h2>
+      <form class="w-100" style="max-width: 400px;" (ngSubmit)="sendRegister()" [formGroup]="registerForm">
+
+        <div class="mb-3">
+          <label for="registerName" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="registerName" placeholder="Tu nombre completo"
+            formControlName="name" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+          @let name = registerForm.get('name')?.errors;
+          @if(name?.['required']) {
+          <div class="invalid-feedback">El nombre es obligatorio</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="registerUsername" class="form-label">Usuario</label>
+          <input type="text" class="form-control" id="registerUsername" placeholder="Elige un usuario"
+            formControlName="username" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+          @let username = registerForm.get('username')?.errors;
+          @if(username?.['required']) {
+          <div class="invalid-feedback">El username es obligatorio</div>
+          }
+          @if(username?.['usernameTaken']) {
+          <div class="invalid-feedback">Este username ya existe</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="registerEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="registerEmail" placeholder="Tu email" formControlName="email"
+            [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+          @let email = registerForm.get('email')?.errors;
+          @if(email?.['required']) {
+          <div class="invalid-feedback">El email es obligatorio</div>
+          }
+          @if(email?.['email']) {
+          <div class="invalid-feedback">El email debe contener &#64;</div>
+          }
+          @if(email?.['emailTaken']) {
+          <div class="invalid-feedback">Este email ya existe</div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label for="registerPhone" class="form-label">Teléfono</label>
+          <input type="tel" class="form-control" id="registerPhone" placeholder="Tu número de teléfono"
+            formControlName="number" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+          @let number = registerForm.get('number')?.errors;
+          @if(number?.['required']) {
+          <div class="invalid-feedback">El número de teléfono es obligatorio</div>
+          }
+          @if (number?.['invalidPhoneNumber']) {
+          <div class="invalid-feedback">El número de teléfono no tiene un formato válido</div>
+          }
+          @if(number?.['numberTaken']) {
+          <div class="invalid-feedback">Este número de teléfono ya existe</div>
+          }
+        </div>
+        <div formGroupName="passwordGroup">
+          <div class="mb-3">
+            <label for="registerPassword" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="registerPassword" placeholder="Crea una contraseña"
+              formControlName="password" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+            @let passwordRegister = registerForm.get('passwordGroup.password')?.errors;
+            @if(passwordRegister?.['required']) {
+            <div class="invalid-feedback">La contraseña es obligatoria</div>
+            }
+            @if(passwordRegister?.['minlength']) {
+            <div class="invalid-feedback">
+              Te faltan al menos
+              {{passwordRegister?.['minlength'].requiredLength - passwordRegister?.['minlength'].actualLength}}
+              caracteres más
+            </div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label for="registerConfirmPassword" class="form-label">Confirmar contraseña</label>
+            <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Repite la contraseña"
+              formControlName="confirmPassword" [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+            @let confirmPasswordRegister = registerForm.get('passwordGroup.confirmPassword')?.errors;
+            @if(confirmPasswordRegister?.['required']) {
+            <div class="invalid-feedback">La contraseña es obligatoria</div>
+            }
+            @if(confirmPasswordRegister?.['minlength']) {
+            <div class="invalid-feedback">
+              Te faltan al menos
+              {{confirmPasswordRegister?.['minlength'].requiredLength -
+              confirmPasswordRegister?.['minlength'].actualLength}}
+              caracteres más
+            </div>
+            }
+          </div>
+        </div>
+        @let passwordGroup = registerForm.get('passwordGroup');
+        @if ( (passwordGroup?.touched || registerForm.touched) && passwordGroup?.hasError('match') ) {
+        <div class="invalid-feedback d-block">
+          Las contraseñas no coinciden
+        </div>
+        }
+        <br>
+
+        <button type="submit" class="btn btn-success w-100"
+          [disabled]="registerForm.invalid || registerForm.pending">Registrarse</button>
+      </form>
+    </div>
+  </div>
+</div>

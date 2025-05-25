@@ -1,12 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../shared/services/auth.service';
+import { TravelsService } from '../shared/services/travels.service';
+import { Travel } from '../shared/interfaces/travel';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
 	selector: 'home',
-	imports: [],
+	imports: [RouterLink],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-	images = ['malta1.webp', 'londres1.jpg'];
-	//Realmente deberias hacer un get de los viajes ya aqui para poner ya las imagenes reales, titulos, descripciones y no tener q ponerlas a mano o otras diferentes
+	#travelsService = inject(TravelsService)
+	#authService = inject(AuthService);
+	travels = signal<Travel[]>([]);
+	isLogged = computed<boolean>(() => this.#authService.getLogged());
+
+	constructor(){
+		const params = new URLSearchParams({ });
+		this.#travelsService.getTravels(params).pipe(takeUntilDestroyed()).subscribe((travels) => {
+			this.travels.set(travels.travels);
+		});
+	}
 }

@@ -1,0 +1,21 @@
+.profile-pic {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 4px solid #dee2e6;
+  transition: transform 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.05);
+}
+
+.btnForm, .btnFormPassword{
+  width: 155px;
+}
+
+.btnFormPassword{
+  border: 2px solid;
+}

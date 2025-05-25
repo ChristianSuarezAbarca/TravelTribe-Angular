@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, LoginComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+	selector: 'app-root',
+	imports: [RouterOutlet],
+	templateUrl: './app.component.html',
+	styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'TravelTribe';
+	constructor(private authService: AuthService) {
+		this.authService.isLogged().subscribe();
+	}
 }

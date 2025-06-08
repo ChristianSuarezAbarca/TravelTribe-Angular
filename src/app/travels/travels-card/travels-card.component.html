@@ -1,70 +1,59 @@
-<div class="card h-100">
-    <!-- Carrusel de Imágenes -->
-    <div id="carousel-{{ travel().id }}" class="carousel slide" data-bs-ride="false">
+<div class="card h-100 d-flex flex-column flex-md-row">
+
+    <div id="carousel-{{ travel()._id }}" class="carousel slide flex-shrink-0 divCarousel" data-bs-ride="false">
         <div class="carousel-inner">
             @for (image of travel().images; track image) {
-            <div class="carousel-item" [class.active]="$first">
-                <img [src]="image" style="height: 300px;" class="d-block w-100" alt="Imagen de viaje">
+            <div class="carousel-item w-100" [class.active]="$first">
+                <img [src]="image" class="d-block w-100 imageCarousel" alt="Imagen de viaje">
             </div>
             }
         </div>
-        <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel-' + travel().id"
-            attr.data-bs-slide="prev">
 
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
+        <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel-' + travel()._id"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
         </button>
-        <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel-' + travel().id"
-            attr.data-bs-slide="next">
-
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
+        <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel-' + travel()._id"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
         </button>
     </div>
 
-    <!-- Cuerpo de la Card -->
     <div class="card-body d-flex flex-column">
-        <h5 class="card-title">{{ travel().title }}</h5>
-        <div class="mb-2">
-            <span class="badge bg-info me-1">
-                🌡 {{ travel().temperature }}
-            </span>
-            <span class="badge bg-success me-1">
-                ❤️ {{ travel().likes }}
-            </span>
-            <span class="badge bg-warning text-dark me-1">
-                ⭐ {{ travel().rate }}
-            </span>
-            <span class="badge bg-secondary me-1">
-                {{ travel().difficulty }}
-            </span>
-            <span class="badge bg-primary">
-                {{ travel().category }}
-            </span>
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title fs-2 d-inline">{{ travel().title }}</h5>
+            <span class="badge bg-success categoryBadge"
+                style="height: 22px; position: absolute; right: 2%; top: -2%;">{{ travel().category }}</span>
         </div>
+        <p class="card-text">{{ travel().description }}</p>
+        <p class="card-text">Activities: {{ travel().activities.join(', ') }}</p>
+        <p class="card-text">Transport: {{ travel().logistics.transport }}, Hotel: {{ travel().logistics.hotel }}</p>
+        <p class="card-text"><i class="bi bi-geo-alt-fill"></i> {{ travel().location.city }}, {{
+            travel().location.country }}</p>
+        <p class="card-text">Adult price: {{ travel().price.adultPrice }}€</p>
+        <p class="card-text">Child price: {{ travel().price.childPrice }}€</p>
+        <p class="card-text">Max people: {{ travel().maxPeople }}</p>
+        <p class="card-text">Min age: {{ travel().minAge }}</p>
 
-        <ul class="list-unstyled flex-grow-1">
-            <li>
-                <i class="bi bi-geo-alt-fill"></i>
-                {{ travel().location.city }}, {{ travel().location.country }}
-            </li>
-            <li>
-                <i class="bi bi-currency-dollar"></i>
-                {{ travel().price.adultPrice }}€
-            </li>
-            <li>
-                <i class="bi bi-calendar-event"></i>
-                {{ travel().date.startDate }}
-            </li>
-        </ul>
-
-        <div class="mt-auto d-flex justify-content-between align-items-center">
-            <a [routerLink]="['/travels', travel().id]" class="btn btn-outline-primary btn-sm">
-                Ver detalles
-            </a>
-            <button class="btn btn-outline-danger btn-sm" (click)="deleted.emit(travel().id)">
-                Eliminar
-            </button>
+        <div class="d-flex flex-column" style="position: absolute; right: 20%; top: 56%;">
+            <span class="badge bg-info mb-4">🌡 {{ travel().temperature }}</span>
+            <span class="badge bg-warning text-dark mb-4">⭐ {{ travel().rate }}</span>
+            @if(!isLogged()){
+            <span class="badge bg-danger mb-4">🤍 {{ travel().likes }}</span>
+            }
+            @if(isLogged()){
+            <button class="badge btn bg-danger mb-4">🤍 {{ travel().likes }}</button>
+            }
+        </div>
+        <div class="d-flex flex-column" style="position: absolute; right: 10%; top: 48%;">
+            @if(isLogged()){
+            <a [routerLink]="['/travels', travel()._id]" class="btn btn-primary btn-sm mb-4">Details</a>
+            <a [routerLink]="['/travels', travel()._id]" class="btn btn-primary btn-sm mb-4">Guardar</a>
+            @if(user()!.rol === 'admin') {
+            <button class="btn btn-danger btn-sm mb-4" (click)="deleted.emit(travel()._id)">Eliminar</button>
+            }
+            }
         </div>
     </div>
+
 </div>

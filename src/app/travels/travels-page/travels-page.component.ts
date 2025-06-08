@@ -12,18 +12,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 	styleUrl: './travels-page.component.scss'
 })
 export class TravelsPageComponent {
-	#travelsService = inject(TravelsService)
+	protected travelsService = inject(TravelsService);
 	travels = signal<Travel[]>([]);
 
 	constructor(){
 		const params = new URLSearchParams({ });
-		this.#travelsService.getTravels(params).pipe(takeUntilDestroyed()).subscribe((travels) => {
-			this.travels.set(travels.travels);
-			console.log(travels.travels);
+		this.travelsService.getTravels(params).pipe(takeUntilDestroyed()).subscribe((travels) => {
+			this.travels.set(travels.travels.filter(travels => travels.difficulty === ''));
 		});
 	}
 
-	deleteEvent(id: Travel['id']): void {
-		this.travels.set(this.travels().filter(travel => travel.id !== id));
+	deleteEvent(id: Travel['_id']): void {
+		this.travels.set(this.travels().filter(travel => travel._id !== id));
 	}
 }

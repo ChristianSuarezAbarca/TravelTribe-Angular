@@ -1,9 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuComponent } from '../../../menu/menu.component';
 import { TravelsCardComponent } from "../../travels-card/travels-card.component";
-import { TravelsService } from '../../../shared/services/travels.service';
-import { Travel } from '../../../shared/interfaces/travel';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TravelsPageComponent } from '../travels-page.component';
 
 @Component({
 	selector: 'adventure-travels',
@@ -11,22 +10,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 	templateUrl: '../travels-page.component.html',
 	styleUrl: '../travels-page.component.scss'
 })
-export class AdventureTravelsComponent {
-	#travelsService = inject(TravelsService)
-	travels = signal<Travel[]>([]);
+export class AdventureTravelsComponent extends TravelsPageComponent {
 
 	constructor() {
+		super();
 		const params = new URLSearchParams({});
-		this.#travelsService.getTravels(params)
+		this.travelsService.getTravels(params)
 			.pipe(takeUntilDestroyed())
 			.subscribe((travels) => {
-				const filteredTravels = travels.travels.filter((travel) => travel.difficulty === 'Hard');
-				this.travels.set(filteredTravels);
-				console.log(filteredTravels);
+				this.travels.set(travels.travels.filter(travels => travels.difficulty !== ''));
 			});
-	}
-
-	deleteEvent(id: Travel['id']): void {
-		this.travels.set(this.travels().filter(travel => travel.id !== id));
 	}
 }

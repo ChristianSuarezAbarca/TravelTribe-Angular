@@ -1,6 +1,7 @@
 import { User } from "./user";
 
-export interface TravelInsert {
+export interface Travel {
+    _id: string;
 	title: string;
 	description: string;
 	maxPeople: number,
@@ -42,12 +43,6 @@ export interface TravelInsert {
         includes: string[],
         notIncludes: string[]
     }
-}
-
-export interface Travel extends TravelInsert {
-	id: number;
-	creator: User;
-	mine: boolean;
 }
 
 export interface Comment {

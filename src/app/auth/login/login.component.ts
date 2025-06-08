@@ -7,6 +7,7 @@ import { ValidationClassesDirective } from '../../shared/directives/validation-c
 import { uniqueValidator } from '../../shared/validators/unique.validator';
 import { phoneNumberValidator } from '../../shared/validators/phoneNumber.validator';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+declare var bootstrap: any;
 
 @Component({
 	selector: 'login',
@@ -34,7 +35,7 @@ export class LoginComponent {
 		}],
 		email: ['', {
 			validators: [Validators.required, Validators.email],
-			asyncValidators: [uniqueValidator('email', this.#authService)],
+			asyncValidators: [uniqueValidator('gmail', this.#authService)],
 			updateOn: 'blur'
 		}],
 		number: ['', {
@@ -55,26 +56,49 @@ export class LoginComponent {
 		const user: UserLogin = { ...this.loginForm.getRawValue() };
 		this.#authService.login(user)
 			.pipe(takeUntilDestroyed(this.#destroyRef))
-			.subscribe(() => {
-				this.#router.navigate(['/travels']);
+			.subscribe({
+				next: () => {
+					this.#router.navigate(['/travels']);
+				},
+				error: () => {
+					const modalLoginError = document.getElementById('modalLoginError');
+					const modal = new bootstrap.Modal(modalLoginError);
+					modal.show();
+				}
 			});
 	}
 
 	sendRegister() {
 		const user: User = {
 			...this.registerForm.getRawValue(),
-			password: this.registerForm.get("passwordGroup")!.get("password")!.value
+			password: this.registerForm.get("passwordGroup")!.get("password")!.value,
+			rol: ''
 		};
 		this.#authService.register(user)
 			.pipe(takeUntilDestroyed(this.#destroyRef))
-			.subscribe(() => {
-				this.#router.navigate(['/auth/login']);
+			.subscribe({
+				next: () => {
+					const modalRegister = document.getElementById('modalRegister');
+					const modal = new bootstrap.Modal(modalRegister);
+					modal.show();
+				}
 			});
+
 	}
 
 	passwordMatch(c: AbstractControl): ValidationErrors | null {
 		const password = c.get('password')?.value;
 		const confirmPassword = c.get('confirmPassword')?.value;
 		return password === confirmPassword ? null : { match: true };
+	}
+
+	rotateLogin() {
+		const flipCard = document.getElementById('flipCard')! as HTMLElement;
+		flipCard.style.transform = 'rotateY(180deg)';
+	}
+
+	rotateRegister() {
+		const flipCard = document.getElementById('flipCard')! as HTMLElement;
+		flipCard.style.transform = 'rotateY(0deg)';
 	}
 }

@@ -1,12 +1,12 @@
 <div id="carousel-travels-container">
 	<div id="carousel-travels" class="carousel slide" data-bs-ride="carousel">
 		<div class="carousel-inner">
-			@for (travel of travels(); track travel.id) {
+			@for (travel of travels(); track travel._id) {
 			<div class="carousel-item" [class.active]="$first">
 				<img [src]="travel.images[0]" class="d-block w-100" id="travelImage" alt="Imagen de {{ travel.title }}">
-				<div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
-					<h5><a [routerLink]="['/travels', travel.id]" id="detailsAnchor" class="text-white">{{ travel.title }}</a></h5>
-					<p class="text-white">{{ travel.description }}</p>
+				<div class="carousel-caption d-block bg-dark bg-opacity-50 rounded p-3">
+					<h5><a [routerLink]="['/travels', travel._id]" id="detailsAnchor" class="text-white">{{ travel.title }}</a></h5>
+					<p class="text-white d-none d-md-block">{{ travel.description }}</p>
 					<button class="carousel-control-prev" type="button" data-bs-target="#carousel-travels"
 						data-bs-slide="prev">
 						<span class="carousel-control-prev-icon"></span>
@@ -25,7 +25,7 @@
 <div class="container-fluid text-center py-5" id="buttons">
 	@if(!isLogged()) {
 	<a routerLink="/auth/login" class="btn btn-outline-success btn-lg mx-2">Login</a>
-	<a routerLink="/auth/register" class="btn btn-outline-success btn-lg mx-2">Register</a>
+	<a routerLink="/auth/login" class="btn btn-outline-success btn-lg mx-2">Register</a>
 	}
 	<a routerLink="/travels" class="btn btn-outline-success btn-lg mx-2">Travels</a>
 </div>

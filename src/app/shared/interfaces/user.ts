@@ -1,11 +1,12 @@
 export interface User {
-    id?: number;
+    _id?: string;
     name: string;
     username: string;
     email: string;
-    password: string;
+    password?: string;
     number: string;
-    // avatar: string;
+    rol: string
+    avatar?: string;
     // travelInteractions,
     // ratedTravels,
     // commentedTravels,

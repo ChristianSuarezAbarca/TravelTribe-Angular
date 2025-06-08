@@ -1,0 +1,22 @@
+.divCarousel {
+    width: 42%;
+}
+
+.imageCarousel {
+    height: 350px;
+    object-fit: cover;
+}
+
+.categoryBadge {
+    width: 80px;
+}
+
+.card-text {
+    margin-bottom: 10px;
+}
+
+@media only screen and (width <768px) {
+    .divCarousel {
+        width: 100%;
+    }
+}

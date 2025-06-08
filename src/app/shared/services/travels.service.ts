@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { TravelsResponse } from '../interfaces/responses';
+import { Observable } from 'rxjs';
+import { SingleTravelResponse, TravelsResponse } from '../interfaces/responses';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,9 +11,10 @@ export class TravelsService {
 	#http = inject(HttpClient);
 
 	getTravels(params: URLSearchParams): Observable<TravelsResponse> {
-		return this.#http.get<TravelsResponse>(this.#url).pipe(map((resp) => {
-			console.log(resp)
-			return resp
-		}));
+		return this.#http.get<TravelsResponse>(this.#url);
+	}
+
+	getTravel(id: string): Observable<SingleTravelResponse> {
+		return this.#http.get<SingleTravelResponse>(this.#url + '/' + id);
 	}
 }

@@ -1,8 +1,8 @@
-#detailsAnchor{
+#detailsAnchor {
     text-decoration: none;
 }
 
-#travelImage{
+#travelImage {
     height: 600px;
 }
 
@@ -10,15 +10,27 @@
     background: linear-gradient(180deg, #ffffff, #bbebba, #64ad62);
 }
 
-#about{
+#about {
     background-color: #0c5a09be;
     border-top: 1px solid rgba(16, 24, 15, 0.685);
 
-    #titleAbout, #descAbout {
+    #titleAbout,
+    #descAbout {
         padding-left: 40px;
     }
-    
-    #imageAbout{
-        max-height: 350px; object-fit: cover;
+
+    #imageAbout {
+        max-height: 350px;
+        object-fit: cover;
+    }
+}
+
+@media only screen and (width <768px) {
+    #travelImage {
+        height: 400px;
+    }
+
+    #imageAbout {
+        height: 250px;
     }
 }

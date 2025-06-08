@@ -3,29 +3,68 @@
     <div class="row bg-white rounded-4 p-4">
 
         <div class="col-md-5 text-center mt-4">
-            <img src="logo.png" alt="profile image" class="profile-pic mb-3" data-bs-toggle="modal"
+            <img [src]="user()!.avatar" alt="Profile Image" class="profile-pic mb-3" data-bs-toggle="modal"
                 data-bs-target="#modalImage">
             <p class="text-muted">Click the image to change it</p>
         </div>
 
         <div class="col-md-6">
             <h4 class="mb-4 mt-2">Profile</h4>
-            <form>
+            <form (ngSubmit)="changeData()" [formGroup]="profileForm">
                 <div class="mb-4">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" id="name" formControlName="name"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let name = profileForm.get('name')?.errors;
+                    @if(name?.['required']) {
+                    <div class="invalid-feedback">Name is required</div>
+                    }
                 </div>
                 <div class="mb-4">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username">
+                    <input type="text" class="form-control" id="username" formControlName="username"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let username = profileForm.get('username')?.errors;
+                    @if(username?.['required']) {
+                    <div class="invalid-feedback">Username is required</div>
+                    }
+                    @if(username?.['usernameTaken']) {
+                    <div class="invalid-feedback">This username already exists</div>
+                    }
                 </div>
                 <div class="mb-4">
                     <label for="email" class="form-label">Gmail</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" id="email" formControlName="email"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let email = profileForm.get('email')?.errors;
+                    @if(email?.['required']) {
+                    <div class="invalid-feedback">Gmail is required</div>
+                    }
+                    @if(email?.['email']) {
+                    <div class="invalid-feedback">The gmail must contain &#64;</div>
+                    }
+                    @if(email?.['gmailTaken']) {
+                    <div class="invalid-feedback">This gmail already exists</div>
+                    }
                 </div>
                 <div class="mb-4">
                     <label for="phone" class="form-label">Number</label>
-                    <input type="tel" class="form-control" id="phone">
+                    <input type="tel" class="form-control" id="phone" formControlName="number"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let number = profileForm.get('number')?.errors;
+                    @if(number?.['required']) {
+                    <div class="invalid-feedback">Phone number is required</div>
+                    }
+                    @if (number?.['invalidPhoneNumber']) {
+                    <div class="invalid-feedback">The phone number does not have a valid format</div>
+                    }
+                    @if(number?.['numberTaken']) {
+                    <div class="invalid-feedback">This phone number already exists</div>
+                    }
                 </div>
                 <button type="submit" class="btn btn-success mt-1 ms-2 btnForm">Save</button>
                 <button type="button" class="btn btn-outline-success mt-1 ms-5 btnFormPassword" data-bs-toggle="modal"
@@ -36,11 +75,10 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
-            <form>
+            <form (ngSubmit)="changeAvatar($event)">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="modalImageLabel">Change avatar</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
@@ -49,7 +87,7 @@
                 <div class="modal-body bg-white">
                     <div class="mb-3">
                         <label for="newPhoto" class="form-label">Choose your new avatar</label>
-                        <input class="form-control" type="file" id="newPhoto" accept="image/*">
+                        <input class="form-control" type="file" id="newPhoto" accept="image/*" encodeBase64 (encoded)="image = $any($event)">
                     </div>
                 </div>
                 <div class="modal-footer bg-light">
@@ -61,11 +99,10 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="modalPassword" tabindex="-1" aria-labelledby="modalPasswordLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
-            <form>
+            <form (ngSubmit)="changePassword()" [formGroup]="changePasswordForm">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="modalPasswordLabel">Change Password</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
@@ -77,6 +114,19 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" formControlName="password"
                                 [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                            @let passwordRegister = changePasswordForm.get('passwordGroup.password')?.errors;
+                            @if(passwordRegister?.['required']) {
+                            <div class="invalid-feedback">Password is required</div>
+                            }
+                            @if(passwordRegister?.['minlength']) {
+                            <div class="invalid-feedback">
+                                You need at least
+                                {{passwordRegister?.['minlength'].requiredLength -
+                                passwordRegister?.['minlength'].actualLength}}
+                                more characters
+                            </div>
+                            }
                         </div>
 
                         <div class="mb-3">
@@ -84,18 +134,40 @@
                             <input type="password" class="form-control" id="confirmPassword"
                                 formControlName="confirmPassword"
                                 [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                            @let confirmPasswordRegister =
+                            changePasswordForm.get('passwordGroup.confirmPassword')?.errors;
+                            @if(confirmPasswordRegister?.['required']) {
+                            <div class="invalid-feedback">Password is required</div>
+                            }
+                            @if(confirmPasswordRegister?.['minlength']) {
+                            <div class="invalid-feedback">
+                                You need at least
+                                {{confirmPasswordRegister?.['minlength'].requiredLength -
+                                confirmPasswordRegister?.['minlength'].actualLength}}
+                                more characters
+                            </div>
+                            }
                         </div>
                     </div>
+                    @let passwordGroup = changePasswordForm.get('passwordGroup');
+                    @if ( (passwordGroup?.touched || changePasswordForm.touched) && passwordGroup?.hasError('match') ) {
+                    <div class="invalid-feedback d-block">
+                        The passwords do not match
+                    </div>
+                    }
+                    <br>
                 </div>
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-success"
+                        [disabled]="changePasswordForm.invalid || changePasswordForm.pending"
+                        data-bs-dismiss="modal">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 
 <section class="col-md-12 mt-3">
     <ul class="nav nav-tabs d-flex" id="myTab" role="tablist">
@@ -116,3 +188,21 @@
         </article>
     </div>
 </section>
+
+<div class="modal fade" id="modalChangeData" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content text-center p-4 border-0 shadow rounded">
+            <h5 class="text-success mb-3">Updated successfully</h5>
+            <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">OK</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalChangeDataError" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content text-center p-4 border-0 shadow rounded">
+            <h5 class="text-danger mb-3">Updated failed</h5>
+            <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">OK</button>
+        </div>
+    </div>
+</div>

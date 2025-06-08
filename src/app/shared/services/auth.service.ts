@@ -11,6 +11,7 @@ export class AuthService {
 	#url = 'auth';
 	#http = inject(HttpClient);
 	#logged = signal(false);
+	#user = signal<User | null>(null);
 
 	login(user: UserLogin): Observable<TokenResponse> {
 		return this.#http.post<TokenResponse>(this.#url + '/login', user).pipe(
@@ -18,6 +19,9 @@ export class AuthService {
 				next: (resp) => {
 					localStorage.setItem("token", resp.accessToken);
 					this.#logged.set(true);
+					this.getCurrentUser().subscribe(user => {
+						this.#user.set(user);
+					});
 				}
 			})
 		);
@@ -29,6 +33,10 @@ export class AuthService {
 
 	getLogged(): boolean {
 		return this.#logged();
+	}
+
+	getUser(): User | null {
+		return this.#user();
 	}
 
 	logout(): void {
@@ -46,10 +54,13 @@ export class AuthService {
 		if (this.#logged()) {
 			return of(true);
 		}
-		
+
 		if (token) {
 			return this.#http.post<boolean>(this.#url + '/validate', { token }).pipe(map(() => {
 				this.#logged.set(true);
+				this.getCurrentUser().subscribe(user => {
+					this.#user.set(user);
+				});
 				return true;
 			}),
 				catchError(() => {
@@ -64,8 +75,12 @@ export class AuthService {
 	}
 
 	checkFieldUnique(value: string, field: string): Observable<boolean> {
-		return this.#http.get<boolean>(`${this.#url}/fieldUnique`, {
+		return this.#http.get<boolean>(this.#url + '/fieldUnique', {
 			params: { value, field }
 		});
+	}
+
+	getCurrentUser(): Observable<User> {
+		return this.#http.get<User>(this.#url + '/me')
 	}
 }

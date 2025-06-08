@@ -1,12 +1,52 @@
 .offcanvas {
-    background-color: #212529;
-    color: #fff;
+  background-color: #14532d;
+  color: #fff;
+
+  .dropdown-left {
+    transform: translateX(-90%) translateY(-4%);
+  }
+
+  .liDropdown:hover {
+    background-color: green;
+  }
+
+  .nav-item.dropdown.travels:hover>.dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-.dropdown-left {
-  transform: translateX(-100%);
+.navbar-brand::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  margin-bottom: 2px;
+  width: 30px;
+  height: 30px;
+  background-image: url('/logo.png');
+  background-color: white;
+  background-size: contain;
+  border-radius: 50%;
 }
 
-.logoutMenu{
-    color: black;
+@media only screen and (width <768px) {
+  .navbar-brand::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 5px;
+    width: 40px;
+    height: 40px;
+    background-image: url('/logo.png');
+    background-color: white;
+    background-size: contain;
+    border-radius: 50%;
+  }
+
+  .navbar-brand {
+    font-size: 30px;
+  }
 }

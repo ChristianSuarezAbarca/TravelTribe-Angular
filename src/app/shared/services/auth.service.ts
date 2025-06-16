@@ -60,6 +60,7 @@ export class AuthService {
 				this.#logged.set(true);
 				this.getCurrentUser().subscribe(user => {
 					this.#user.set(user);
+					console.log(user)
 				});
 				return true;
 			}),
@@ -82,5 +83,10 @@ export class AuthService {
 
 	getCurrentUser(): Observable<User> {
 		return this.#http.get<User>(this.#url + '/me')
+	}
+
+	updateUser(user: User) {
+		console.log(user)
+		this.#user.set({ ...user });
 	}
 }

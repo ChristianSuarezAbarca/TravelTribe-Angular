@@ -72,7 +72,8 @@ export class LoginComponent {
 		const user: User = {
 			...this.registerForm.getRawValue(),
 			password: this.registerForm.get("passwordGroup")!.get("password")!.value,
-			rol: ''
+			rol: '',
+			banned: false
 		};
 		this.#authService.register(user)
 			.pipe(takeUntilDestroyed(this.#destroyRef))

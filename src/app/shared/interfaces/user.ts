@@ -7,27 +7,14 @@ export interface User {
     number: string;
     rol: string
     avatar?: string;
-    // travelInteractions,
-    // ratedTravels,
-    // commentedTravels,
-    // conversations,
-    me?: boolean;
+    travelInteractions?: [{
+        travel: string,
+        type: string
+    }],
+    banned: boolean
 }
 
 export interface UserLogin {
     usernameOrEmail: string;
     password: string;
 }
-
-// export interface UserProfileEdit {
-//     name: string;
-//     email: string;
-// }
-
-// export interface UserPhotoEdit {
-//     avatar: string;
-// }
-
-// export interface UserPasswordEdit {
-//     password: string;
-// }

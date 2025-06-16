@@ -37,10 +37,10 @@
                         <li class="nav-item">
                             <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
                         </li>
-
-                        @if(user()!.rol === 'admin'){
+                        
+                        @if(user() && user()!.rol === 'admin'){
                         <li class="nav-item">
-                            <a class="nav-link" routerLink="/travels/new" routerLinkActive="active">New Travel</a>
+                            <a class="nav-link" routerLink="/travels/add" routerLinkActive="active">New Travel</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" routerLink="/auth/users" routerLinkActive="active">Users</a>

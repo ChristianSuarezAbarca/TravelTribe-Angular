@@ -1,1 +1,355 @@
-<p>new-travel works!</p>
+<top-menu></top-menu>
+
+<form [formGroup]="newTravelForm" (ngSubmit)="addNewTravel()" class="container my-5">
+    <h2 class="mb-4 text-center title">Add New Travel</h2>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title title">General Information</h5>
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input formControlName="title" class="form-control"
+                    [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                @let title = newTravelForm.get('title')?.errors;
+                @if(title?.['required']) {
+                <div class="invalid-feedback">Title is required</div>
+                }
+                @if(title?.['minlength']) {
+                <div class="invalid-feedback">
+                    You need at least
+                    {{title?.['minlength'].requiredLength - title?.['minlength'].actualLength}}
+                    more characters
+                </div>
+                }
+                @if(title?.['maxlength']) {
+                <div class="invalid-feedback">
+                    30 characters is the maximum
+                </div>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea formControlName="description" class="form-control" rows="3"
+                    [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}"></textarea>
+
+                @let description = newTravelForm.get('description')?.errors;
+                @if(description?.['required']) {
+                <div class="invalid-feedback">Description is required</div>
+                }
+                @if(description?.['minlength']) {
+                <div class="invalid-feedback">
+                    You need at least
+                    {{description?.['minlength'].requiredLength - description?.['minlength'].actualLength}}
+                    more characters
+                </div>
+                }
+                @if(description?.['maxlength']) {
+                <div class="invalid-feedback">
+                    400 characters is the maximum
+                </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Max People</label>
+                    <input formControlName="maxPeople" type="number" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let maxPeople = newTravelForm.get('maxPeople')?.errors;
+                    @if(maxPeople?.['required']) {
+                    <div class="invalid-feedback">Max People is required</div>
+                    }
+                    @if(maxPeople?.['min']) {
+                    <div class="invalid-feedback">
+                        Max people must be a positive number
+                    </div>
+                    }
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Min Age</label>
+                    <input formControlName="minAge" type="number" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let minAge = newTravelForm.get('minAge')?.errors;
+                    @if(minAge?.['required']) {
+                    <div class="invalid-feedback">Min age is required</div>
+                    }
+                    @if(minAge?.['min']) {
+                    <div class="invalid-feedback">
+                        Min age must be a positive number
+                    </div>
+                    }
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Expected Temperature</label>
+                    <input formControlName="temperature" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let temperature = newTravelForm.get('temperature')?.errors;
+                    @if(temperature?.['required']) {
+                    <div class="invalid-feedback">Temperature is required</div>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Difficulty</label>
+                    <input formControlName="difficulty" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Category</label>
+                    <input formControlName="category" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let category = newTravelForm.get('category')?.errors;
+                    @if(category?.['required']) {
+                    <div class="invalid-feedback">Category is required</div>
+                    }
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Images</label>
+                <div class="d-flex gap-2">
+                    <input #imagesInput class="form-control" type="file" accept="image/*" multiple encodeBase64 (encoded)="image = $event">
+                    <button type="button" class="btn btn-outline-primary"
+                        (click)="addImage(image); imagesInput.value=''; image=''">+</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title title">Location</h5>
+            <div formGroupName="location">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Country</label>
+                        <input formControlName="country" class="form-control"
+                            [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                        @let country = newTravelForm.get('location.country')?.errors;
+                        @if(country?.['required']) {
+                        <div class="invalid-feedback">Country is required</div>
+                        }
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">City</label>
+                        <input formControlName="city" class="form-control"
+                            [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                        @let city = newTravelForm.get('location.city')?.errors;
+                        @if(city?.['required']) {
+                        <div class="invalid-feedback">City is required</div>
+                        }
+                    </div>
+                </div>
+
+                <div formGroupName="coordinates" class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Latitude</label>
+                        <input formControlName="lat" type="number" class="form-control"
+                            [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                        @let lat = newTravelForm.get('location.coordinates.lat')?.errors;
+                        @if(lat?.['required']) {
+                        <div class="invalid-feedback">Latitude is required</div>
+                        }
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Longitude</label>
+                        <input formControlName="lng" type="number" class="form-control"
+                            [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                        @let lng = newTravelForm.get('location.coordinates.lng')?.errors;
+                        @if(lng?.['required']) {
+                        <div class="invalid-feedback">Longitude is required</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title title">Pricing</h5>
+            <div class="row" formGroupName="price">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Adult Price</label>
+                    <input formControlName="adultPrice" type="number" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let adultPrice = newTravelForm.get('price.adultPrice')?.errors;
+                    @if(adultPrice?.['required']) {
+                    <div class="invalid-feedback">Adult price is required</div>
+                    }
+                    @if(adultPrice?.['min']) {
+                    <div class="invalid-feedback">
+                        Adult price must be a positive number
+                    </div>
+                    }
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Child Price</label>
+                    <input formControlName="childPrice" type="number" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let childPrice = newTravelForm.get('price.childPrice')?.errors;
+                    @if(childPrice?.['min']) {
+                    <div class="invalid-feedback">
+                        Child price must be a positive number
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title title">Dates</h5>
+            <div class="row" formGroupName="date">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Start Date</label>
+                    <input formControlName="startDate" type="date" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let startDate = newTravelForm.get('date.startDate')?.errors;
+                    @if(startDate?.['required']) {
+                    <div class="invalid-feedback">Start date is required</div>
+                    }
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">End Date</label>
+                    <input formControlName="endDate" type="date" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let endDate = newTravelForm.get('date.endDate')?.errors;
+                    @if(endDate?.['required']) {
+                    <div class="invalid-feedback">End date is required</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title title">Logistics</h5>
+            <div formGroupName="logistics" class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Transport</label>
+                    <input formControlName="transport" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let transport = newTravelForm.get('logistics.transport')?.errors;
+                    @if(transport?.['required']) {
+                    <div class="invalid-feedback">Transport is required</div>
+                    }
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Hotel</label>
+                    <input formControlName="hotel" class="form-control"
+                        [validationClasses]="{valid: 'is-valid', invalid: 'is-invalid'}">
+
+                    @let hotel = newTravelForm.get('logistics.hotel')?.errors;
+                    @if(hotel?.['required']) {
+                    <div class="invalid-feedback">Hotel is required</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title title">Extras</h5>
+
+            <div class="mb-3">
+                <label class="form-label">Activities</label>
+                <div class="d-flex gap-2">
+                    <input #activityInput class="form-control">
+                    <button class="btn btn-outline-success" type="button"
+                        (click)="addActivity(activityInput.value); activityInput.value=''">+</button>
+                </div>
+                <div class="mt-2">
+                    @for (a of activities.controls; track a) {
+                    <span class="badge bg-success me-1">{{ a.value }}</span>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Includes</label>
+                <div class="d-flex gap-2">
+                    <input #inc class="form-control">
+                    <button type="button" class="btn btn-outline-primary"
+                        (click)="addInclude(inc.value); inc.value=''">+</button>
+                </div>
+                <div class="mt-2">
+                    @for (i of includes.controls; track i) {
+                    <span class="badge bg-primary me-1">{{ i.value }}</span>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Not Included</label>
+                <div class="d-flex gap-2">
+                    <input #noinc class="form-control">
+                    <button type="button" class="btn btn-outline-danger"
+                        (click)="addNotInclude(noinc.value); noinc.value=''">+</button>
+                </div>
+                <div class="mt-2">
+                    @for (n of notIncludes.controls; track n) {
+                    <span class="badge bg-danger me-1">{{ n.value }}</span>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Keywords</label>
+                <div class="d-flex gap-2">
+                    <input #keyword class="form-control">
+                    <button type="button" class="btn btn-outline-warning"
+                        (click)="addKeyword(keyword.value); keyword.value=''">+</button>
+                </div>
+                <div class="mt-2">
+                    @for (k of keywords.controls; track k) {
+                    <span class="badge bg-warning me-1">{{ k.value }}</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-success btn-lg px-5" [disabled]="newTravelForm.invalid">Save Travel</button>
+    </div>
+</form>
+
+<div class="modal fade" id="modalCorrect" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content text-center p-4 border-0 shadow rounded">
+            <h5 class="text-success mb-3">Saved successfully</h5>
+            <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal"
+                (click)="redirectTravels()">OK</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalIncorrect" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content text-center p-4 border-0 shadow rounded">
+            <h5 class="text-danger mb-3">Error creating the travel</h5>
+            <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">OK</button>
+        </div>
+    </div>
+</div>

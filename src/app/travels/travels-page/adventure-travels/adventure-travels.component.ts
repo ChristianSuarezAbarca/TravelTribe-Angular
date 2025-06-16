@@ -11,7 +11,6 @@ import { TravelsPageComponent } from '../travels-page.component';
 	styleUrl: '../travels-page.component.scss'
 })
 export class AdventureTravelsComponent extends TravelsPageComponent {
-
 	constructor() {
 		super();
 		const params = new URLSearchParams({});

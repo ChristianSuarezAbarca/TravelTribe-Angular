@@ -1,22 +1,107 @@
 .divCarousel {
-    width: 42%;
+  width: 42%;
 }
 
 .imageCarousel {
-    height: 350px;
-    object-fit: cover;
+  height: 350px;
+  object-fit: cover;
 }
 
 .categoryBadge {
-    width: 80px;
+  width: 80px;
 }
 
 .card-text {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #4c663f;
+}
+
+.like-button,
+.rate,
+.temperature,
+.delete,
+.details {
+  border: none;
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+  border-radius: 11px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &.liked {
+    background-color: #f8f9fa;
+    color: #000;
+  }
+
+  &.not-liked {
+    background-color: #dc3545;
+    color: #fff;
+  }
+}
+
+.save-button {
+  border: none;
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+  border-radius: 11px;
+  background-color: #198754;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.94);
+    background-color: #198754;
+    color: white;
+  }
+}
+
+.bought-button {
+  border: none;
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+  border-radius: 11px;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.94);
+    color: white;
+  }
+
+  &.bought {
+    background-color: blue;
+  }
+
+  &.not-bought {
+    background-color: green;
+  }
+}
+
+.divButtons {
+  position: absolute;
+  right: 14%;
+  top: 38%;
 }
 
 @media only screen and (width <768px) {
-    .divCarousel {
-        width: 100%;
-    }
+  .divCarousel {
+    width: 100%;
+  }
+
+  .categoryBadge {
+    width: 80px;
+    margin-top: 6px;
+  }
+
+  .divButtons {
+    position: absolute;
+    right: 14%;
+    top: 65%;
+  }
 }

@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export interface Travel {
-    _id: string;
+    _id?: string;
 	title: string;
 	description: string;
 	maxPeople: number,
@@ -10,7 +10,7 @@ export interface Travel {
 	images: string[],
 	likes: number,
 	rate: number,
-	difficulty: string,
+	difficulty?: string,
 	category: string,
 	keywords?: string[],
 	activities: string[],

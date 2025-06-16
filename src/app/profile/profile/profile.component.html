@@ -9,7 +9,7 @@
         </div>
 
         <div class="col-md-6">
-            <h4 class="mb-4 mt-2">Profile</h4>
+            <h4 class="mb-4 mt-2 d-md-block d-none" id="profileTitle">Profile</h4>
             <form (ngSubmit)="changeData()" [formGroup]="profileForm">
                 <div class="mb-4">
                     <label for="name" class="form-label">Name</label>
@@ -87,12 +87,13 @@
                 <div class="modal-body bg-white">
                     <div class="mb-3">
                         <label for="newPhoto" class="form-label">Choose your new avatar</label>
-                        <input class="form-control" type="file" id="newPhoto" accept="image/*" encodeBase64 (encoded)="image = $any($event)">
+                        <input class="form-control" type="file" id="newPhoto" accept="image/*" encodeBase64
+                            (encoded)="avatar = $event">
                     </div>
                 </div>
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal" [disabled]="avatar === ''">Save</button>
                 </div>
             </form>
         </div>
@@ -172,19 +173,49 @@
 <section class="col-md-12 mt-3">
     <ul class="nav nav-tabs d-flex" id="myTab" role="tablist">
         <li class="nav-item flex-fill text-center">
-            <a class="nav-link active w-100 text-black" id="profe-tab" data-bs-toggle="tab" href="#profe"
-                role="tab">Interacciones</a>
+            <a class="nav-link active w-100 text-black fs-5" id="profe-tab" data-bs-toggle="tab" href="#interacciones"
+                role="tab">Interactions</a>
         </li>
         <li class="nav-item flex-fill text-center">
-            <a class="nav-link w-100 text-black" id="nanos-tab" data-bs-toggle="tab" href="#nanos"
-                role="tab">Guardados</a>
+            <a class="nav-link w-100 text-black fs-5" id="nanos-tab" data-bs-toggle="tab" href="#guardados"
+                role="tab">Saved</a>
         </li>
     </ul>
 
     <div class="tab-content mt-3">
-        <article class="tab-pane fade show active" id="profe" role="tabpanel">
+        <article class="tab-pane fade show active" id="interacciones" role="tabpanel">
+            <div class="mb-4 row row-cols-1 g-0 d-flex justify-content-center">
+                @for (interaction of interactionsTravels().slice().reverse(); track interaction.travel._id) {
+                <div class="col-md-5 col-11 border rounded p-3 mb-3 mx-4 shadow-sm bg-light">
+                    <p class="mb-0 text-success">
+                        @if (interaction.type === 'saved') {
+                        <span>
+                            You saved the trip <strong>{{ interaction.travel.title }}</strong>
+                            <i class="bi bi-bookmark-check-fill ms-1"></i>
+                        </span>
+                        } @else if (interaction.type === 'liked') {
+                        <span>
+                            You liked the trip <strong>{{ interaction.travel.title }}</strong>
+                            <i class="bi bi-hand-thumbs-up-fill ms-1"></i>
+                        </span>
+                        } @else if (interaction.type === 'bought') {
+                        <span>
+                            You purchased the trip <strong>{{ interaction.travel.title }}</strong>
+                            <i class="bi bi-cart-check-fill ms-1"></i>
+                        </span>
+                        }
+                    </p>
+                </div>
+                }
+            </div>
         </article>
-        <article class="tab-pane fade" id="nanos" role="tabpanel">
+        <article class="tab-pane fade" id="guardados" role="tabpanel">
+            <div class="mb-4 row row-cols-1 g-0 d-flex justify-content-center">
+                @for (travel of savedTravels(); track travel._id) {
+                <travels-card class="col-11 py-2 px-3" [travel]="travel" (deleted)="deleteEvent($event)"
+                    (travelLiked)="updateLikedTravel($event)"></travels-card>
+                }
+            </div>
         </article>
     </div>
 </section>

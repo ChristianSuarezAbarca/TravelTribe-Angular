@@ -1,10 +1,16 @@
 <top-menu></top-menu>
-<!-- filtro por caracteristicas -->
 
 <div class="mb-4 mt-4 row row-cols-1 g-0">
 	@for (travel of travels(); track travel._id) {
-	<travels-card class="col py-2 px-3" [travel]="travel" (deleted)="deleteEvent($event)"></travels-card>
+	<travels-card class="col py-2 px-3" [travel]="travel" (deleted)="deleteEvent($event)" (travelLiked)="updateLikedTravel($event)"></travels-card>
 	}
 </div>
 
-<!-- busqueda infinita -->
+<div class="modal fade" id="modalBanned" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content text-center p-4 border-0 shadow rounded">
+            <h5 class="text-danger mb-3">You have been banned from this website</h5>
+            <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal" (click)="deleteToken()">OK</button>
+        </div>
+    </div>
+</div>
